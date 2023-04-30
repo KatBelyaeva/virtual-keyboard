@@ -16,8 +16,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    
-
 }
 
 .keyboard__key {
@@ -30,8 +28,6 @@
     font-size: 20px;
     margin: 5px;
     text-align: center;
-
-
 }
 
 .key_wide {
@@ -40,5 +36,9 @@
 
 .key_superwide {
     width: 420px;
+}
+
+.key_active {
+    background-color: orange;
 }
 

@@ -13,10 +13,18 @@ const keys = [
   'Shift', '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '.', ',', '/', '↑', 'Shift',
   'Ctrl', 'Win', 'Alt', 'Space', 'Alt', 'Ctrl', '←', '↓', '→'];
 
+const keyCode = [
+  'Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace',
+  'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete',
+  'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter',
+  'ShiftLeft', 'Backslash', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight',
+  'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
+
 function init() {
   let out = '';
+  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < keys.length; i++) {
-    out += `<div class="keyboard__key">${keys[i]}</div>`;
+    out += `<div class="keyboard__key" data="${keyCode[i]}">${keys[i]}</div>`;
   }
   document.querySelector('.keyboard').innerHTML = out;
 }
@@ -24,9 +32,10 @@ init();
 
 function getClass() {
   const allkeys = document.querySelectorAll('.keyboard__key');
+  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < allkeys.length; i++) {
-    if (allkeys[i].textContent === 'Backspace' || allkeys[i].innerHTML === '' || allkeys[i].innerHTML === 'CapsLock' || 
-    allkeys[i].innerHTML === 'Enter' || allkeys[i].innerHTML === 'Shift') {
+    if (allkeys[i].textContent === 'Backspace' || allkeys[i].innerHTML === '' || allkeys[i].innerHTML === 'CapsLock'
+    || allkeys[i].innerHTML === 'Enter' || allkeys[i].innerHTML === 'Shift') {
       allkeys[i].classList.add('key_wide');
     }
     if (allkeys[i].textContent === 'Space') {
@@ -34,14 +43,24 @@ function getClass() {
     }
   }
 }
+
 getClass();
 
+const allKeys = document.querySelectorAll('.keyboard__key');
 
+// eslint-disable-next-line func-names
+document.onkeydown = function (event) {
+  allKeys.forEach((element) => {
+    element.classList.remove('key_active');
+  });
+  document.querySelector(`.keyboard__key[data="${event.code}"]`).classList.add('key_active');
+};
 
-//  for (let i = 0; i < keys.length; i++) {
-//    [
-//        192, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187, 8,
-//        9, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221, 220,
-//        20, 65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13,
-//        16, 90, 88, 67, 86, 66, 78, 77, 188, 190, 191, 38, 16,
-//        17, 91, 18, 32, 18, 17, 37, 40, 39];
+allKeys.forEach((element) => {
+  element.addEventListener('click', () => {
+    allKeys.forEach((elem) => {
+      elem.classList.remove('key_active');
+    });
+    element.classList.add('key_active');
+  });
+});
