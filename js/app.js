@@ -66,9 +66,13 @@ function listener() {
         break;
       case 'Shift':
       case 'Alt':
-      case 'Ctrl':
       case 'Win':
         text.value += '';
+        break;
+      case 'Ctrl':
+        if (event.key === 'Alt') {
+          console.log('lang');
+        }
         break;
       case 'CapsLock':
         if (caps === false) {
