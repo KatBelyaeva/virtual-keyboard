@@ -9,7 +9,7 @@ keyboard.classList.add('keyboard');
 document.body.appendChild(keyboard);
 
 let out = '';
-for (let i = 0; i < keysEng.length; i++) {
+for (let i = 0; i < keysEng.length; i += 1) {
   out += `<div class="keyboard__key" data="${keyCode[i]}">
             <span class="key eng small">${keysEng[i]}</span>
             <span class="key rus small hidden">${keysRus[i]}</span>
@@ -20,7 +20,7 @@ document.querySelector('.keyboard').innerHTML = out;
 let caps = false;
 
 function getClass() {
-  for (let i = 0; i < document.querySelectorAll('.keyboard__key').length; i++) {
+  for (let i = 0; i < document.querySelectorAll('.keyboard__key').length; i += 1) {
     if (document.querySelectorAll('.keyboard__key')[i].getAttribute('data') === 'Backspace') {
       document.querySelectorAll('.keyboard__key')[i].classList.add('key_wide');
     }
@@ -42,20 +42,18 @@ function getClass() {
 getClass();
 
 function listener() {
-  document.onkeydown = function (event) {
+  document.onkeydown = function keyListener(event) {
     document.querySelectorAll('.keyboard__key').forEach((element) => {
       element.classList.remove('key_active');
     });
     document.querySelector(`.keyboard__key[data="${event.code}"]`).classList.add('key_active');
-    text.focus();
     text.focus();
     switch (event.key) {
       case 'Enter':
         text.value += '\n';
         break;
       case 'Del':
-        text.value = text.value.slice(0, text.value[text.selectionStart]) + text.value.slice(text.value[text.selectionStart 
-          + 1]);
+        text.value = text.value.slice(0, text.value[text.selectionStart]);
         break;
       case 'Backspace':
         text.value = text.value.slice(0, text.value.length - 1);
@@ -73,15 +71,39 @@ function listener() {
         text.value += '';
         break;
       case 'CapsLock':
-
+        if (caps === false) {
+          caps = true;
+          let outBig = '';
+          for (let i = 0; i < keysEng.length; i += 1) {
+            outBig += `<div class="keyboard__key" data="${keyCode[i]}">
+              <span class="key eng">${keysEng[i].length === 1 ? keysEng[i].toUpperCase() : keysEng[i]}</span>
+              <span class="key rus hidden">${keysRus[i]}</span>
+            </div>`;
+          }
+          document.querySelector('.keyboard').innerHTML = outBig;
+        } else if (caps === true) {
+          caps = false;
+          let outSmall = '';
+          for (let i = 0; i < keysEng.length; i += 1) {
+            outSmall += `<div class="keyboard__key" data="${keyCode[i]}">
+              <span class="key eng">${keysEng[i].length === 1 ? keysEng[i].toLowerCase() : keysEng[i]}</span>
+              <span class="key rus hidden">${keysRus[i]}</span>
+            </div>`;
+          }
+          document.querySelector('.keyboard').innerHTML = outSmall;
+        }
+        getClass();
+        listener();
         break;
       default:
-        if (!event.target.classList.contains('hidden')) {
-          text.value += event.target.textContent;
+        if (!element.classList.contains('hidden')) {
+          if (caps === false) {
+            text.value += element.textContent.toLowerCase();
+          } else {
+            text.value += element.textContent.toUpperCase();
+          }
         }
     }
-    text.value += event.key;
-    console.log(event);
   };
 
   document.querySelectorAll('.key').forEach((element) => {
@@ -116,45 +138,45 @@ function listener() {
         case 'CapsLock':
           if (caps === false && element.classList.contains('eng')) {
             caps = true;
-            let out = '';
-            for (let i = 0; i < keysEng.length; i++) {
-              out += `<div class="keyboard__key" data="${keyCode[i]}">
+            let outEngBig = '';
+            for (let i = 0; i < keysEng.length; i += 1) {
+              outEngBig += `<div class="keyboard__key" data="${keyCode[i]}">
                 <span class="key eng">${keysEng[i].length === 1 ? keysEng[i].toUpperCase() : keysEng[i]}</span>
                 <span class="key rus hidden">${keysRus[i]}</span>
               </div>`;
             }
-            document.querySelector('.keyboard').innerHTML = out;
+            document.querySelector('.keyboard').innerHTML = outEngBig;
           } else if (caps === true && element.classList.contains('eng')) {
             caps = false;
-            let out = '';
-            for (let i = 0; i < keysEng.length; i++) {
-              out += `<div class="keyboard__key" data="${keyCode[i]}">
+            let outEngSmall = '';
+            for (let i = 0; i < keysEng.length; i += 1) {
+              outEngSmall += `<div class="keyboard__key" data="${keyCode[i]}">
                 <span class="key eng">${keysEng[i].length === 1 ? keysEng[i].toLowerCase() : keysEng[i]}</span>
                 <span class="key rus hidden">${keysRus[i]}</span>
               </div>`;
             }
-            document.querySelector('.keyboard').innerHTML = out;
+            document.querySelector('.keyboard').innerHTML = outEngSmall;
           }
           if (caps === false && element.classList.contains('rus')) {
             caps = true;
-            let out = '';
-            for (let i = 0; i < keysEng.length; i++) {
-              out += `<div class="keyboard__key" data="${keyCode[i]}">
+            let outRusBig = '';
+            for (let i = 0; i < keysEng.length; i += 1) {
+              outRusBig += `<div class="keyboard__key" data="${keyCode[i]}">
                 <span class="key eng  hidden">${keysEng[i]}</span>
                 <span class="key rus">${keysRus[i].length === 1 ? keysRus[i].toUpperCase() : keysRus[i]}</span>
               </div>`;
             }
-            document.querySelector('.keyboard').innerHTML = out;
+            document.querySelector('.keyboard').innerHTML = outRusBig;
           } else if (caps === true && element.classList.contains('rus')) {
             caps = false;
-            let out = '';
-            for (let i = 0; i < keysEng.length; i++) {
-              out += `<div class="keyboard__key" data="${keyCode[i]}">
+            let outRusSmall = '';
+            for (let i = 0; i < keysEng.length; i += 1) {
+              outRusSmall += `<div class="keyboard__key" data="${keyCode[i]}">
                 <span class="key eng hidden">${keysEng[i]}</span>
                 <span class="key rus">${keysRus[i].length === 1 ? keysRus[i].toLowerCase() : keysRus[i]}</span>
               </div>`;
             }
-            document.querySelector('.keyboard').innerHTML = out;
+            document.querySelector('.keyboard').innerHTML = outRusSmall;
           }
           getClass();
           listener();
