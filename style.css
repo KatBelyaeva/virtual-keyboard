@@ -35,10 +35,14 @@
 }
 
 .key_superwide {
-    width: 420px;
+    width: 465px;
 }
 
 .key_active {
-    background-color: orange;
+    color: orange;
+}
+
+.hidden {
+    display: none;
 }
 
