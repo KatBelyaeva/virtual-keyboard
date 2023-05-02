@@ -53,7 +53,11 @@ function listener() {
         text.value += '\n';
         break;
       case 'Del':
-        text.value = text.value.slice(0, text.value[text.selectionStart]);
+        if (text.selectionStart === text.selectionEnd) {
+          text.setRangeText('', text.selectionStart, text.selectionEnd + 1, 'end');
+        } else {
+          text.setRangeText('', text.selectionStart, text.selectionEnd, 'end');
+        }
         break;
       case 'Backspace':
         text.value = text.value.slice(0, text.value.length - 1);
@@ -70,6 +74,7 @@ function listener() {
         text.value += '';
         break;
       case 'Ctrl':
+        console.log('lang');
         if (event.key === 'Alt') {
           console.log('lang');
         }
@@ -100,11 +105,11 @@ function listener() {
         listener();
         break;
       default:
-        if (!element.classList.contains('hidden')) {
+        if (!document.querySelector(`.keyboard__key[data="${event.code}"]`).children.classList.contains('hidden')) {
           if (caps === false) {
-            text.value += element.textContent.toLowerCase();
+            text.value += document.querySelector(`.keyboard__key[data="${event.code}"]`).children.textContent.toLowerCase();
           } else {
-            text.value += element.textContent.toUpperCase();
+            text.value += document.querySelector(`.keyboard__key[data="${event.code}"]`).children.textContent.toUpperCase();
           }
         }
     }
@@ -122,7 +127,11 @@ function listener() {
           text.value += '\n';
           break;
         case 'Del':
-          text.value = text.value.slice(0, text.value[text.selectionStart]);
+          if (text.selectionStart === text.selectionEnd) {
+            text.setRangeText('', text.selectionStart, text.selectionEnd + 1, 'end');
+          } else {
+            text.setRangeText('', text.selectionStart, text.selectionEnd, 'end');
+          }
           break;
         case 'Backspace':
           text.value = text.value.slice(0, text.value.length - 1);
