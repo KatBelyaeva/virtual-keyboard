@@ -77,7 +77,7 @@ function listener() {
       case 'Alt':
         if (event.ctrlKey === true) {
           if (lang === 'eng' && caps === false) {
-            caps = 'rus';
+            lang = 'rus';
             let outRus = '';
             for (let i = 0; i < keysEng.length; i += 1) {
               outRus += `<div class="keyboard__key" data="${keyCode[i]}">
@@ -88,10 +88,7 @@ function listener() {
             document.querySelector('.keyboard').innerHTML = outRus;
             getClass();
             listener();
-          }
-        }
-        if (event.ctrlKey === true) {
-          if (lang === 'rus' && caps === false) {
+          } else if (lang === 'rus' && caps === false) {
             lang = 'eng';
             let outEng = '';
             for (let i = 0; i < keysEng.length; i += 1) {
@@ -104,10 +101,8 @@ function listener() {
             getClass();
             listener();
           }
-        }
-        if (event.ctrlKey === true) {
           if (lang === 'eng' && caps === true) {
-            caps = 'rus';
+            lang = 'rus';
             let outRus = '';
             for (let i = 0; i < keysEng.length; i += 1) {
               outRus += `<div class="keyboard__key" data="${keyCode[i]}">
@@ -118,10 +113,7 @@ function listener() {
             document.querySelector('.keyboard').innerHTML = outRus;
             getClass();
             listener();
-          }
-        }
-        if (event.ctrlKey === true) {
-          if (lang === 'rus' && caps === true) {
+          } else if (lang === 'rus' && caps === true) {
             lang = 'eng';
             let outEng = '';
             for (let i = 0; i < keysEng.length; i += 1) {
@@ -208,7 +200,7 @@ function listener() {
           text.value += '';
           break;
         case 'CapsLock':
-          if (caps === false && element.classList.contains('eng')) {
+          if (caps === false && lang === 'eng') {
             caps = true;
             let outEngBig = '';
             for (let i = 0; i < keysEng.length; i += 1) {
@@ -218,7 +210,7 @@ function listener() {
               </div>`;
             }
             document.querySelector('.keyboard').innerHTML = outEngBig;
-          } else if (caps === true && element.classList.contains('eng')) {
+          } else if (caps === true && lang === 'eng') {
             caps = false;
             let outEngSmall = '';
             for (let i = 0; i < keysEng.length; i += 1) {
@@ -229,7 +221,7 @@ function listener() {
             }
             document.querySelector('.keyboard').innerHTML = outEngSmall;
           }
-          if (caps === false && element.classList.contains('rus')) {
+          if (caps === false && lang === 'rus') {
             caps = true;
             let outRusBig = '';
             for (let i = 0; i < keysEng.length; i += 1) {
@@ -239,7 +231,7 @@ function listener() {
               </div>`;
             }
             document.querySelector('.keyboard').innerHTML = outRusBig;
-          } else if (caps === true && element.classList.contains('rus')) {
+          } else if (caps === true && lang === 'rus') {
             caps = false;
             let outRusSmall = '';
             for (let i = 0; i < keysEng.length; i += 1) {
