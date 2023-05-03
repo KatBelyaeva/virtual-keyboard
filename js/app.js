@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/extensions
 import { keysEng, keyCode, keysRus } from './keys.js';
 
 const text = document.createElement('textarea');
@@ -10,7 +11,7 @@ document.body.appendChild(keyboard);
 
 const language = document.createElement('p');
 language.classList.add('language');
-language.textContent = "Для смены языка нажмите 'Ctrl' + 'Alt'";
+language.textContent = "Для смены языка нажмите 'Ctrl' + 'Shift'";
 document.body.appendChild(language);
 
 function init() {
@@ -78,40 +79,43 @@ function listener() {
           break;
         case 'Shift':
         case 'Alt':
-        case 'Control':
+        case 'Ctrl':
         case 'Win':
           text.value += '';
           break;
         case 'CapsLock':
-          if (caps === false && lang === 'eng') {
+          if (caps === false) {
             caps = true;
-            let outEngBig = '';
-            for (let i = 0; i < keysEng.length; i += 1) {
-              outEngBig += `<div class="keyboard__key" data="${keyCode[i]}">${keysEng[i].length === 1 ? keysEng[i].toUpperCase() : keysEng[i]}</div>`;
+            if (lang === 'eng') {
+              let outEngBig = '';
+              for (let i = 0; i < keysEng.length; i += 1) {
+                outEngBig += `<div class="keyboard__key" data="${keyCode[i]}">${keysEng[i].length === 1 ? keysEng[i].toUpperCase() : keysEng[i]}</div>`;
+              }
+              document.querySelector('.keyboard').innerHTML = outEngBig;
             }
-            document.querySelector('.keyboard').innerHTML = outEngBig;
-          } else if (caps === true && lang === 'eng') {
+            if (lang === 'rus') {
+              let outRusBig = '';
+              for (let i = 0; i < keysEng.length; i += 1) {
+                outRusBig += `<div class="keyboard__key" data="${keyCode[i]}">${keysRus[i].length === 1 ? keysRus[i].toUpperCase() : keysRus[i]}</div>`;
+              }
+              document.querySelector('.keyboard').innerHTML = outRusBig;
+            }
+          } else if (caps === true) {
             caps = false;
-            let outEngSmall = '';
-            for (let i = 0; i < keysEng.length; i += 1) {
-              outEngSmall += `<div class="keyboard__key" data="${keyCode[i]}">${keysEng[i].length === 1 ? keysEng[i].toLowerCase() : keysEng[i]}</div>`;
+            if (lang === 'eng') {
+              let outEngSmall = '';
+              for (let i = 0; i < keysEng.length; i += 1) {
+                outEngSmall += `<div class="keyboard__key" data="${keyCode[i]}">${keysEng[i].length === 1 ? keysEng[i].toLowerCase() : keysEng[i]}</div>`;
+              }
+              document.querySelector('.keyboard').innerHTML = outEngSmall;
             }
-            document.querySelector('.keyboard').innerHTML = outEngSmall;
-          }
-          if (caps === false && lang === 'rus') {
-            caps = true;
-            let outRusBig = '';
-            for (let i = 0; i < keysEng.length; i += 1) {
-              outRusBig += `<div class="keyboard__key" data="${keyCode[i]}">${keysRus[i].length === 1 ? keysRus[i].toUpperCase() : keysRus[i]}</div>`;
+            if (lang === 'rus') {
+              let outRusSmall = '';
+              for (let i = 0; i < keysEng.length; i += 1) {
+                outRusSmall += `<div class="keyboard__key" data="${keyCode[i]}">${keysRus[i].length === 1 ? keysRus[i].toLowerCase() : keysRus[i]}</div>`;
+              }
+              document.querySelector('.keyboard').innerHTML = outRusSmall;
             }
-            document.querySelector('.keyboard').innerHTML = outRusBig;
-          } else if (caps === true && lang === 'rus') {
-            caps = false;
-            let outRusSmall = '';
-            for (let i = 0; i < keysEng.length; i += 1) {
-              outRusSmall += `<div class="keyboard__key" data="${keyCode[i]}">${keysRus[i].length === 1 ? keysRus[i].toLowerCase() : keysRus[i]}</div>`;
-            }
-            document.querySelector('.keyboard').innerHTML = outRusSmall;
           }
           getClass();
           listener();
@@ -151,14 +155,14 @@ function listener() {
         text.value += ' ';
         break;
       case 'Shift':
-        if (event.onkeydown === true && lang === 'rus') {
+        if (event.type === 'keydown' && lang === 'rus') {
           let outRus = '';
           for (let i = 0; i < keysEng.length; i += 1) {
-            outRus += `<div class="keyboard__key" data="${keyCode[i]}">$${keysRus[i].length === 1 ? keysRus[i].toUpperCase() : keysRus[i]}</div>`;
+            outRus += `<div class="keyboard__key" data="${keyCode[i]}">${keysRus[i].length === 1 ? keysRus[i].toUpperCase() : keysRus[i]}</div>`;
           }
           document.querySelector('.keyboard').innerHTML = outRus;
         }
-        if (event.onkeydown === true && lang === 'eng') {
+        if (event.type === 'keydown' && lang === 'eng') {
           let outEng = '';
           for (let i = 0; i < keysEng.length; i += 1) {
             outEng += `<div class="keyboard__key" data="${keyCode[i]}">${keysEng[i].length === 1 ? keysEng[i].toUpperCase() : keysEng[i]}</div>`;
@@ -247,25 +251,42 @@ function listener() {
       case 'CapsLock':
         if (caps === false) {
           caps = true;
-          let outBig = '';
-          for (let i = 0; i < keysEng.length; i += 1) {
-            outBig += `<div class="keyboard__key" data="${keyCode[i]}">${keysEng[i].length === 1 ? keysEng[i].toUpperCase() : keysEng[i]}</div>`;
+          if (lang === 'eng') {
+            let outEngBig = '';
+            for (let i = 0; i < keysEng.length; i += 1) {
+              outEngBig += `<div class="keyboard__key" data="${keyCode[i]}">${keysEng[i].length === 1 ? keysEng[i].toUpperCase() : keysEng[i]}</div>`;
+            }
+            document.querySelector('.keyboard').innerHTML = outEngBig;
           }
-          document.querySelector('.keyboard').innerHTML = outBig;
+          if (lang === 'rus') {
+            let outRusBig = '';
+            for (let i = 0; i < keysEng.length; i += 1) {
+              outRusBig += `<div class="keyboard__key" data="${keyCode[i]}">${keysRus[i].length === 1 ? keysRus[i].toUpperCase() : keysRus[i]}</div>`;
+            }
+            document.querySelector('.keyboard').innerHTML = outRusBig;
+          }
         } else if (caps === true) {
           caps = false;
-          let outSmall = '';
-          for (let i = 0; i < keysEng.length; i += 1) {
-            outSmall += `<div class="keyboard__key" data="${keyCode[i]}">${keysEng[i].length === 1 ? keysEng[i].toLowerCase() : keysEng[i]}x</div>`;
+          if (lang === 'eng') {
+            let outEngSmall = '';
+            for (let i = 0; i < keysEng.length; i += 1) {
+              outEngSmall += `<div class="keyboard__key" data="${keyCode[i]}">${keysEng[i].length === 1 ? keysEng[i].toLowerCase() : keysEng[i]}</div>`;
+            }
+            document.querySelector('.keyboard').innerHTML = outEngSmall;
           }
-          document.querySelector('.keyboard').innerHTML = outSmall;
+          if (lang === 'rus') {
+            let outRusSmall = '';
+            for (let i = 0; i < keysEng.length; i += 1) {
+              outRusSmall += `<div class="keyboard__key" data="${keyCode[i]}">${keysRus[i].length === 1 ? keysRus[i].toLowerCase() : keysRus[i]}</div>`;
+            }
+            document.querySelector('.keyboard').innerHTML = outRusSmall;
+          }
         }
         getClass();
         listener();
         break;
       default:
-        text.focus();
-        text.value += '';
+        text.value += event.key;
     }
   };
 }
